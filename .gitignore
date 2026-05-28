@@ -1,0 +1,25 @@
+# Dependencies
+app/node_modules/
+
+# Build outputs
+app/dist/
+iter1-dist/
+
+# Environment & secrets
+*.pem
+*.key
+*.env
+*.env.local
+*.env.*.local
+
+# Editor
+.DS_Store
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# TypeScript cache
+*.tsbuildinfo
