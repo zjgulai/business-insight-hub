@@ -91,7 +91,8 @@ business_insight_hub/
 ```bash
 cd app
 npm install
-npm run dev
+npm run dev      # http://localhost:3000
+npm run lint     # ESLint 检查（0 errors 为合格）
 ```
 
 ## 构建
@@ -100,3 +101,22 @@ npm run dev
 cd app
 npm run build   # tsc + vite build，输出到 app/dist/
 ```
+
+## 部署
+
+**生产地址**：https://business.lute-tlz-dddd.top
+
+纯静态 SPA，通过 rsync 上传到腾讯云服务器（101.34.52.232），挂载到现有 `ai_video_nginx` 容器提供服务。
+
+```bash
+# 构建 + 上传（一次完成）
+cd app && npm run build
+rsync -avz --delete \
+  -e "ssh -i ../ai_video.pem -o StrictHostKeyChecking=no" \
+  dist/ \
+  ubuntu@101.34.52.232:/opt/business-insight-hub/html/
+```
+
+上传后无需重启 nginx，文件即时生效（HTML 缓存 5 分钟，JS/CSS/图片缓存 7 天 immutable）。
+
+详细部署架构、nginx 配置、服务器环境见 [AGENTS.md](./AGENTS.md)。
